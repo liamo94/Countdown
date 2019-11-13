@@ -1,0 +1,15 @@
+.selectButtons {
+    margin: auto;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.selectButtons a {
+    text-decoration: none;
+}
+
+.selectButton {
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}

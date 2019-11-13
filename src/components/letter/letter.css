@@ -1,0 +1,26 @@
+.letterSquare {
+    border: 1px solid white;
+    color: white;
+    background-color: #008296;
+    padding: 10px;
+    font-weight: bold;
+    float: left;
+    margin: 2px;
+    font-size: calc(20px + 2vmin);
+}
+
+.letterSquare:hover
+{
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+@media only screen and (max-width: 800px) {
+    .letterSquare {
+        font-size: calc(5px + 2vmin);
+    }
+    .letterSquare:hover {
+        transform: none;
+    }
+  }

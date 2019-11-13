@@ -1,0 +1,92 @@
+button {
+    background-color: black;
+    padding: 5px 10px;
+    border: 1px solid white;
+    color: white;
+    font-weight: bold;
+    font-size: calc(20px + 2vmin);
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #ff7676;
+}
+
+.activeButton {
+    background-color: #ff7676;
+}
+
+.bigNumbers, .answerSection {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.answerSection {
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.target {
+    color: #90ee90;
+    font-size: calc(50px + 2vmin);
+}
+
+.result {
+    color: #E34234;
+    font-size: calc(50px + 2vmin);
+}
+
+.targetReached {
+    color: #90ee90;
+}
+
+.fiveAway {
+    color: #FFBF00;
+}
+
+.tenAway {
+    color: #FF7F00;
+}
+
+.values {
+    font-size: calc(20px + 2vmin);
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    margin-bottom: 20px;
+    background: gray;
+}
+
+input {
+    width: 60%;
+    font-size: calc(20px + 2vmin);
+    margin: auto;
+    display: block;
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+    margin-top: 20px;
+}
+
+.backButton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: inherit;
+    border: none;
+    padding: 0;
+}
+.target span {
+    border: 1px solid #90ee90;
+    padding: 0 10px;
+}
+
+@media only screen and (max-width: 800px) {
+    .bigNumbers {
+        margin-top: 50px;
+    }
+  }
