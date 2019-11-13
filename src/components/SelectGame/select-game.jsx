@@ -10,12 +10,12 @@ class SelectGame extends Component {
             <div className="selectButtons">
                 <BackButton path='/' />
                 <h1>Select a game mode...</h1>
-                <Link to={{ pathname: '/number', state: '20' }}>
+                <Link to={{ pathname: '/number', state: { fromNotifications: '20' } }}>
                     <button className="selectButton">
                         Number round
                     </button>
                 </Link>
-                <NavLink to={{ pathname: '/number', state: '20' }}>
+                <NavLink to={{ pathname: '/letter', state: '20' }}>
                     <button className="selectButton">
                         Letter round
                     </button>

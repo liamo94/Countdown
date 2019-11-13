@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './number-round.css';
 import BackButton from '../BackButton/back-button';
+import { random } from '../../resources/random';
 
 class NumberRound extends Component {
     constructor(props) {
@@ -16,9 +17,12 @@ class NumberRound extends Component {
     }
     render() {
         const buttons = [1, 2, 3, 4];
+        const { fromNotifications } = this.props.location.state;
+        console.log(fromNotifications);
         return (
             <div>
                 <BackButton path='/select' />
+                <button className="resetButton" onClick={this.reset}>Reset</button>
                 <div className="bigNumbers">
                     <h1>Number round</h1>
                     <h2>How many big numbers?</h2>
@@ -26,7 +30,7 @@ class NumberRound extends Component {
                         <button value={button} key={button} className={this.state.selectedButton === button ? 'activeButton' : ''} onClick={() => { this.bigNumbersSelected(button) }}>{button}</button>
                     ))}
                 </div>
-                <div className={this.state.targetNumber !== 0 ? 'answerSection' : 'hidden'}>
+                <div className={this.state.targetNumber !== 0 ? 'answerSection animateUp' : 'hidden'}>
                     <Target targetNumber={this.state.targetNumber} />
                     <p>Using numbers</p>
                     {this.state.numbers.map((value, i) => (
@@ -43,6 +47,9 @@ class NumberRound extends Component {
 
     getBadgeClasses() {
         let classes = "result ";
+        if (isNaN(this.state.output)) {
+            classes += 'small ';
+        }
         let value = Math.abs(this.state.targetNumber - +this.state.output);
         if (value === 0) {
             return classes += ' targetReached';
@@ -53,18 +60,32 @@ class NumberRound extends Component {
         } else return classes;
     }
 
-    bigNumbersSelected(val) {
+    bigNumbersSelected = (val) => {
         this.setState({
-            targetNumber: this.random(101, 999),
+            targetNumber: random(101, 999),
             numbers: this.selectRandomNumbers(val),
             selectedButton: val,
             input: '',
             output: ''
         });
+        // for (let i = 0; i < 10; i++) {
+        //     console.log(i);
+        //     setInterval(() => this.setState({ targetNumber: this.random(101, 999), }), 10);
+        // }
     }
 
     handleChange(event) {
         this.setState({ input: event.target.value, output: this.sum(event.target.value) });
+    }
+
+    reset = () => {
+        this.setState({
+            targetNumber: 0,
+            numbers: [],
+            selectedButton: 0,
+            input: '',
+            output: ''
+        })
     }
 
     selectRandomNumbers(totalBigNumbers) {
@@ -73,29 +94,16 @@ class NumberRound extends Component {
         let smallNumbers = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10];
         let bigNumbers = [25, 50, 75, 100];
         for (let i = 0; i < totalBigNumbers; i++) {
-            let rnd = this.random(bigNumbers.length);
+            let rnd = random(bigNumbers.length);
             selectedNumbers.push(bigNumbers[rnd]);
             bigNumbers.splice(rnd, 1);
         }
         for (let i = 0; i < (totalNumbers - totalBigNumbers); i++) {
-            let rnd = this.random(smallNumbers.length);
+            let rnd = random(smallNumbers.length);
             selectedNumbers.push(smallNumbers[rnd]);
             smallNumbers.splice(rnd, 1);
         }
         return selectedNumbers.sort((x, y) => { return x - y });
-    }
-
-    random(x, y) {
-        if (typeof y === "undefined") {
-            if (x instanceof Array) {
-                let index = Math.floor(Math.random() * x.length);
-                return x[index];
-            } else {
-                return Math.floor(Math.random() * x);
-            }
-        } else {
-            return Math.floor(Math.random() * (y - x) + x);
-        }
     }
 
     sum(e) {
@@ -103,17 +111,17 @@ class NumberRound extends Component {
         var s = [];
         e = e.split(' ');
         for (let i = 0; i < e.length; i++) {
-            if (!isNaN(e[i]) && (numbers.indexOf(+e[i]) === -1) && e[i] !== '') {
-                return 'Number not avaialble';
+            if (!isNaN(e[i]) && (numbers.indexOf(+e[i]) === -1) && e[i] !== '' && e[i] !== ' ') {
+                return 'Number not available';
             }
-            if (e[i] !== '') {
+            if (e[i] !== '' && e[i] !== ' ' && !isNaN(e[i])) {
                 numbers.splice(numbers.indexOf(+e[i]), 1);
             }
 
         }
         for (var i in e) {
             var t = e[i], n = +t
-            if (n === t)
+            if (n == t)
                 s.push(n)
             else {
                 var o2 = s.pop(), o1 = s.pop();
@@ -127,6 +135,7 @@ class NumberRound extends Component {
                     default: s.push(o1); break;
                 }
             }
+            if (s[0] < 0) return `Number can't be negative`;
         }
         return isNaN(s[0]) ? 'Invalid input' : s[0];
     }

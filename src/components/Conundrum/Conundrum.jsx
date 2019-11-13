@@ -25,6 +25,7 @@ class Conundrum extends Component {
         return (
             <div className="conundrum">
                 <BackButton path='/select' />
+                <button className="resetButton" onClick={this.reset}>Reset</button>
                 <h1>Conundrum round</h1>
                 <p>Unscramble word</p>
                 <div className="word">
@@ -32,12 +33,12 @@ class Conundrum extends Component {
                 </div>
                 <input type="text" value={this.state.input} onChange={this.handleChange} placeholder="Type solution..." maxLength="9" />
                 {this.showIfSolutionCorrect()}
-                <Solution
+                {this.state.input.length === 9 && !this.correctSolution() ? <Solution
                     showIfSolutionCorrect={this.showIfSolutionCorrect}
                     showSolution={this.state.showSolution}
                     onChangeSolution={this.onChangeSolution}
                     word={this.state.word}>
-                </Solution>
+                </Solution> : null}
             </div>
         );
     }
@@ -46,12 +47,26 @@ class Conundrum extends Component {
         this.setState({ input: event.target.value.toUpperCase() });
     }
 
+    reset = () => {
+        let word = this.random(this.state.words)
+        this.setState({
+            word,
+            scrambledWord: word.split('').sort(() => { return 0.5 - Math.random() }).join('').toUpperCase(),
+            input: '',
+            showSolution: false
+        });
+    }
+
     onChangeSolution = () => {
         this.setState({ showSolution: true });
     }
 
+    correctSolution = () => {
+        return this.state.input.toLowerCase() === this.state.word;
+    }
+
     showIfSolutionCorrect() {
-        let correctSolution = this.state.input.toLowerCase() === this.state.word ? <p>Correct</p> : <p>Incorrect</p>
+        let correctSolution = this.correctSolution() ? <p>Correct</p> : <p>Incorrect</p>
         return this.state.input.length === 9 ? correctSolution : ' ';
     }
 

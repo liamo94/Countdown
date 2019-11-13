@@ -24,10 +24,15 @@ button:hover {
 
 .hidden {
     display: none;
+    max-height: 0px;
+    transition:max-height 1s ease-in; 
 }
 
 .answerSection {
-    transition: visibility 0s, opacity 0.5s linear;
+    /* transition: visibility 0s, opacity 0.5s linear; */
+    display: block;
+    max-height: 500px;
+    transition:max-height 1s ease-out;
 }
 
 .target {
@@ -58,7 +63,8 @@ button:hover {
     padding: 5px;
     margin: 5px;
     margin-bottom: 20px;
-    background: gray;
+    background: #008296;
+    border: 1px solid white;
 }
 
 input {
@@ -83,6 +89,34 @@ input {
 .target span {
     border: 1px solid #90ee90;
     padding: 0 10px;
+}
+
+.small {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.target {
+    animation: randomGen (300 / 3 / 15) + s steps(300 / 3) infinite;
+  }
+  
+  @keyframes randomGen {
+    100% { transform: translateX(-300 / 3 * 100%); }
+  }
+  
+  
+  #pause:checked ~ div div {
+    animation-play-state: paused;
+  }
+
+
+.animateUp {
+    /* -webkit-transform: translateY(150px);
+    transform: translateY(150px);
+    -webkit-animation: moveUp 0.45s ease forwards;
+    animation: moveUp 0.45s ease forwards;
+    animation-delay: 1s;
+    opacity: 0; */
 }
 
 @media only screen and (max-width: 800px) {
