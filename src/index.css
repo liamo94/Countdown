@@ -22,6 +22,19 @@ h1, h2, h3, p{
 
 
 button:focus {
-  background-color: #FF7F00;
+  background-color: #ff7676;
   color: white;
 }
+
+.altButton {
+  background-color: #ff7676;
+  color: white;
+}
+
+.altButton:hover{
+  background-color: black;
+  color: white;
+}
+
+
+

@@ -1,4 +1,4 @@
-export var words = [
+[
 "aa",
 "aah",
 "aahed",

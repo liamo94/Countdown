@@ -9,9 +9,11 @@ class Conundrum extends Component {
         word: '',
         scrambledWord: '',
         input: '',
-        showSolution: false
+        showSolution: false,
+        loop: 0
     }
     componentDidMount() {
+        this.myLoop();
         let word = this.random(this.state.words)
         this.setState(
             {
@@ -43,6 +45,24 @@ class Conundrum extends Component {
         );
     }
 
+    myLoop = () => { 
+        setTimeout(() => {  
+            let word = this.random(this.state.words)
+            this.setState(
+            {
+                word,
+                scrambledWord: word.split('').sort(() => { return 0.5 - Math.random() }).join('').toUpperCase()
+            }
+        );
+           if (this.state.loop < 50) {  
+            this.setState({
+                loop: this.state.loop + 1
+            }); 
+              this.myLoop();         
+           }                       
+        }, 5)
+     }
+
     handleChange = (event) => {
         this.setState({ input: event.target.value.toUpperCase() });
     }
@@ -53,8 +73,10 @@ class Conundrum extends Component {
             word,
             scrambledWord: word.split('').sort(() => { return 0.5 - Math.random() }).join('').toUpperCase(),
             input: '',
-            showSolution: false
+            showSolution: false,
+            loop: 0
         });
+        this.myLoop();
     }
 
     onChangeSolution = () => {

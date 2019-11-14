@@ -11,14 +11,15 @@ class NumberRound extends Component {
             numbers: [],
             selectedButton: 0,
             input: '',
-            output: ''
+            output: '',
+            loop: 0
         }
         this.handleChange = this.handleChange.bind(this);
     }
     render() {
         const buttons = [1, 2, 3, 4];
         const { fromNotifications } = this.props.location.state;
-        console.log(fromNotifications);
+        // console.log(fromNotifications);
         return (
             <div>
                 <BackButton path='/select' />
@@ -61,18 +62,30 @@ class NumberRound extends Component {
     }
 
     bigNumbersSelected = (val) => {
+        this.myLoop(); 
         this.setState({
             targetNumber: random(101, 999),
             numbers: this.selectRandomNumbers(val),
             selectedButton: val,
             input: '',
-            output: ''
+            output: '',
+            loop: 0
         });
-        // for (let i = 0; i < 10; i++) {
-        //     console.log(i);
-        //     setInterval(() => this.setState({ targetNumber: this.random(101, 999), }), 10);
-        // }
     }
+
+     myLoop = () => { 
+        setTimeout(() => {  
+            this.setState({
+                targetNumber: random(101, 999),
+            }); 
+           if (this.state.loop < 50) {  
+            this.setState({
+                loop: this.state.loop + 1
+            }); 
+              this.myLoop();         
+           }                       
+        }, 5)
+     }
 
     handleChange(event) {
         this.setState({ input: event.target.value, output: this.sum(event.target.value) });
@@ -84,7 +97,8 @@ class NumberRound extends Component {
             numbers: [],
             selectedButton: 0,
             input: '',
-            output: ''
+            output: '',
+            loop: 0
         })
     }
 

@@ -22,3 +22,17 @@
     justify-content: center;
     margin-top: 20px;
 }
+
+small {
+    color: white;
+    display: block;
+}
+
+@media only screen and (max-width: 800px) {
+    .hiddenLetterSquare {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: calc(15px + 2vmin);
+    }
+  }

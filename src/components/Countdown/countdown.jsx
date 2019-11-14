@@ -9,6 +9,7 @@ function Countdown() {
         <div className="App">
             <body>
                 <div className="mainBody">
+                <button className="resetButton">Settings</button>
                     {letters.map((letter, i) => (
                         <Letter key={i} letter={letter} />
                     ))}
