@@ -62,7 +62,7 @@ class NumberRound extends Component {
     }
 
     bigNumbersSelected = (val) => {
-        this.myLoop(); 
+        this.myLoop();
         this.setState({
             targetNumber: random(101, 999),
             numbers: this.selectRandomNumbers(val),
@@ -73,19 +73,19 @@ class NumberRound extends Component {
         });
     }
 
-     myLoop = () => { 
-        setTimeout(() => {  
+    myLoop = () => {
+        setTimeout(() => {
             this.setState({
                 targetNumber: random(101, 999),
-            }); 
-           if (this.state.loop < 50) {  
-            this.setState({
-                loop: this.state.loop + 1
-            }); 
-              this.myLoop();         
-           }                       
+            });
+            if (this.state.loop < 30) {
+                this.setState({
+                    loop: this.state.loop + 1
+                });
+                this.myLoop();
+            }
         }, 5)
-     }
+    }
 
     handleChange(event) {
         this.setState({ input: event.target.value, output: this.sum(event.target.value) });

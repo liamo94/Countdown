@@ -28,6 +28,27 @@ small {
     display: block;
 }
 
+.errorText {
+    color: #E34234;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.warning {
+    color: #E34234;
+}
+
+[disabled]{
+    background-color: #f6f6f6;
+    color: #d3d3d3;
+}
+
+[disabled]:hover{
+    background-color: #f6f6f6;
+    color: #d3d3d3;
+    cursor: default;
+}
+
 @media only screen and (max-width: 800px) {
     .hiddenLetterSquare {
         width: 20px;

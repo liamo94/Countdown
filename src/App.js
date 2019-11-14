@@ -6,6 +6,7 @@ import NumberRound from './components/numberRound/number-round';
 import SelectGame from './components/SelectGame/select-game';
 import Conundrum from './components/Conundrum/Conundrum';
 import LetterRound from './components/letterRound/letter-round';
+import Settings from './components/Settings/settings';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/select" component={SelectGame} />
       <Route path="/conundrum" component={Conundrum} />
       <Route path="/letter" component={LetterRound} />
+      <Route path="/settings" component={Settings} />
     </BrowserRouter>
   );
 }
