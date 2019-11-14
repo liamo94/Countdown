@@ -7,7 +7,8 @@ import { random } from '../../resources/random';
 class LetterRound extends Component {
     state = {
         letters: ['', '', '', '', '', '', '', '', ''],
-        totalLetters: 0
+        totalLetters: 0,
+        input: ''
     }
     constructor(props) {
         super(props);
@@ -45,6 +46,8 @@ class LetterRound extends Component {
                         <HiddenLetter key={i} letter={letter} />
                     ))}
                 </div>
+                <p>Now make a word</p>
+                <input type="text" value={this.state.input} maxLength="7" onChange={this.handleChange} />
             </div>
         );
     }
@@ -58,7 +61,11 @@ class LetterRound extends Component {
                 totalLetters: this.state.totalLetters++
             })
         }
-    };
+    }
+
+    handleChange = (event) => {
+        this.setState({ input: event.target.value.toUpperCase() });
+    }
 
     constanantClicked = () => {
         if (this.state.totalLetters <= 7) {

@@ -20,10 +20,6 @@ h1, h2, h3, p{
   background: #ffb7b7; /* WebKit/Blink Browsers */
 }
 
-input:focus {
-  background-color: #FF7F00;
-  color: white;
-}
 
 button:focus {
   background-color: #FF7F00;
