@@ -95,7 +95,7 @@ class LetterRound extends Component {
     }
 
     handleChange = (event) => {
-        this.setState({ input: event.target.value.toUpperCase(), inputValid: true });
+        this.setState({ input: event.target.value.toUpperCase(), inputValid: true, match: false });
         let letters = [...this.state.letters];
         let charArr = event.target.value.toUpperCase().split('');
         for (let i = 0; i < charArr.length; i++) {
@@ -181,9 +181,13 @@ class InputField extends Component {
                 {this.props.empty}
                 {!this.props.inputValid ? <small className="errorText">Letter not available</small> : null}
                 <button className="altButton" onClick={this.props.checkWord} disabled={this.props.input === '' || !this.props.inputValid}>Submit word</button>
-                <p>{this.props.match ? 'Correct' : 'Wrong'}</p>
+                <p>{this.props.match ? `Correct, +${this.getPoints()} points` : null}</p>
             </React.Fragment>
         );
+    }
+
+    getPoints() {
+        return this.props.input.length === 9 ? 18 : this.props.input.length;
     }
 }
 

@@ -31,21 +31,17 @@ class Timer extends Component {
     }
 
     myLoop = () => {
-        console.log(this.props.active);
         this.intervalId = setInterval(() => {
-            if (!this.props.active) {
-                clearInterval(this.intervalId);
-            }
-            if (this.state.seconds !== 0) {
+            console.log(this.props.stopRunning);
+            if (this.state.seconds !== 0 && !this.props.stopRunning) {
                 this.setState({
                     seconds: this.state.seconds - 1,
                     color: this.getRandomColor()
                 });
-                if (this.props.active) {
-                    document.getElementById('timer').style.border = `5px solid ${this.getRandomColor()}`;
-                }
+                document.getElementById('timer').style.border = `5px solid ${this.getRandomColor()}`;
             } else {
                 clearInterval(this.intervalId);
+                this.setState({ seconds: 30 })
                 document.getElementById('timer').style.border = `5px solid white`;
             }
         }, 1000)

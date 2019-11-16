@@ -11,7 +11,8 @@ class Conundrum extends Component {
         scrambledWord: '',
         input: '',
         showSolution: false,
-        loop: 0
+        loop: 0,
+        stopRunning: false
     }
     componentDidMount() {
         this.myLoop();
@@ -29,7 +30,7 @@ class Conundrum extends Component {
             <div className="conundrum">
                 <BackButton path='/select' />
                 <button className="resetButton" onClick={this.reset}>Reset</button>
-                <Timer active={true} />
+                <Timer stopRunning={this.state.stopRunning} />
                 <h1>Conundrum round</h1>
                 <p>Unscramble word</p>
                 <div className="word">
@@ -70,13 +71,15 @@ class Conundrum extends Component {
     }
 
     reset = () => {
+        // this.setState({ stopRunning: true })
         let word = this.random(this.state.words)
         this.setState({
             word,
             scrambledWord: word.split('').sort(() => { return 0.5 - Math.random() }).join('').toUpperCase(),
             input: '',
             showSolution: false,
-            loop: 0
+            loop: 0,
+            stopRunning: true
         });
         this.myLoop();
     }
