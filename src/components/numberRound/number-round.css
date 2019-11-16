@@ -67,16 +67,22 @@ button:hover {
     border: 1px solid white;
 }
 
-input {
+.answerInput {
     width: 60%;
     font-size: calc(20px + 2vmin);
     margin: auto;
     display: block;
-    border-radius: 5px;
-    border: none;
-    padding: 5px;
+    border-radius: 22px;
+    padding: 5px 20px;
     margin-top: 20px;
+    border: none;
+    box-shadow: 15px 15px 50px rgba(0, 0, 0, 0.5);
 }
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-size: 20px;
+    vertical-align: middle;
+  }
 
 .backButton {
     position: absolute;
@@ -123,4 +129,9 @@ input {
     .bigNumbers {
         margin-top: 50px;
     }
-  }
+}
+
+
+
+
+  

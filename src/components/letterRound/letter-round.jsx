@@ -4,6 +4,7 @@ import BackButton from '../BackButton/back-button';
 import { random } from '../../resources/random';
 import { getVowels } from '../../resources/vowels';
 import { getConstanants } from '../../resources/constanants';
+import Timer from '../Timer/timer';
 
 
 class LetterRound extends Component {
@@ -65,6 +66,7 @@ class LetterRound extends Component {
             <div className="letterContainer">
                 <BackButton path='/select' />
                 <button className="resetButton" onClick={this.reset}>Reset</button>
+                {this.state.totalLetters === 9 ? <Timer active={true} /> : null}
                 <h1>Letter round</h1>
                 <p>Pick letters</p>
                 {!!this.state.error ? <h1 className="warning">Internet required to play</h1> : null}
@@ -135,10 +137,10 @@ class LetterRound extends Component {
     }
 
     checkWord = () => {
-        this.checkWord2(this.state.items, this.state.input.toLowerCase(), 0, this.state.items.length - 1);
+        this.checkWordUtility(this.state.items, this.state.input.toLowerCase(), 0, this.state.items.length - 1);
     }
 
-    checkWord2 = (arr, x, start, end) => {
+    checkWordUtility = (arr, x, start, end) => {
         if (start > end) {
             this.setState({ match: false });
             return false;
@@ -151,9 +153,9 @@ class LetterRound extends Component {
             return true;
         }
         if (arr[mid] > x)
-            return this.checkWord2(arr, x, start, mid - 1);
+            return this.checkWordUtility(arr, x, start, mid - 1);
         else
-            return this.checkWord2(arr, x, mid + 1, end);
+            return this.checkWordUtility(arr, x, mid + 1, end);
     }
 }
 
@@ -175,7 +177,7 @@ class InputField extends Component {
         return (
             <React.Fragment>
                 <p>Now make a word</p>
-                <input type="text" value={this.props.input} maxLength="7" onChange={this.props.handleChange} />
+                <input className="answerInput" type="text" value={this.props.input} maxLength="7" onChange={this.props.handleChange} />
                 {this.props.empty}
                 {!this.props.inputValid ? <small className="errorText">Letter not available</small> : null}
                 <button className="altButton" onClick={this.props.checkWord} disabled={this.props.input === '' || !this.props.inputValid}>Submit word</button>

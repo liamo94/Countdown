@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { conundrum } from '../../resources/dictionarysmall';
 import './Conundrum.css';
 import BackButton from '../BackButton/back-button';
+import Timer from '../Timer/timer';
 
 class Conundrum extends Component {
     state = {
@@ -28,12 +29,13 @@ class Conundrum extends Component {
             <div className="conundrum">
                 <BackButton path='/select' />
                 <button className="resetButton" onClick={this.reset}>Reset</button>
+                <Timer active={true} />
                 <h1>Conundrum round</h1>
                 <p>Unscramble word</p>
                 <div className="word">
                     {this.state.scrambledWord}
                 </div>
-                <input type="text" value={this.state.input} onChange={this.handleChange} placeholder="Type solution..." maxLength="9" />
+                <input className="answerInput" type="text" value={this.state.input} onChange={this.handleChange} placeholder="Type solution..." maxLength="9" />
                 {this.showIfSolutionCorrect()}
                 {this.state.input.length === 9 && !this.correctSolution() ? <Solution
                     showIfSolutionCorrect={this.showIfSolutionCorrect}

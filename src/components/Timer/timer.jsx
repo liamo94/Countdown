@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './settings.css'
+import './timer.css'
 
 
-class Settings extends Component {
+class Timer extends Component {
     intervalId = 0;
     state = {
         seconds: 30,
@@ -12,10 +12,14 @@ class Settings extends Component {
         super(props);
         this.myLoop();
     }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
+    }
+
     render() {
         return (
             <React.Fragment>
-                <h1>Settings page</h1>
                 <div className="timer" id="timer">
                     <h1>{this.state.seconds}</h1>
                 </div>
@@ -27,13 +31,19 @@ class Settings extends Component {
     }
 
     myLoop = () => {
+        console.log(this.props.active);
         this.intervalId = setInterval(() => {
+            if (!this.props.active) {
+                clearInterval(this.intervalId);
+            }
             if (this.state.seconds !== 0) {
                 this.setState({
                     seconds: this.state.seconds - 1,
                     color: this.getRandomColor()
                 });
-                document.getElementById('timer').style.border = `5px solid ${this.getRandomColor()}`;
+                if (this.props.active) {
+                    document.getElementById('timer').style.border = `5px solid ${this.getRandomColor()}`;
+                }
             } else {
                 clearInterval(this.intervalId);
                 document.getElementById('timer').style.border = `5px solid white`;
@@ -52,4 +62,4 @@ class Settings extends Component {
 
 }
 
-export default Settings;
+export default Timer;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './number-round.css';
 import BackButton from '../BackButton/back-button';
 import { random } from '../../resources/random';
+import Timer from '../Timer/timer';
 
 class NumberRound extends Component {
     constructor(props) {
@@ -18,12 +19,12 @@ class NumberRound extends Component {
     }
     render() {
         const buttons = [1, 2, 3, 4];
-        const { fromNotifications } = this.props.location.state;
         // console.log(fromNotifications);
         return (
             <div>
                 <BackButton path='/select' />
                 <button className="resetButton" onClick={this.reset}>Reset</button>
+                {this.state.selectedButton !== 0 ? <Timer active={true} /> : null}
                 <div className="bigNumbers">
                     <h1>Number round</h1>
                     <h2>How many big numbers?</h2>
@@ -37,7 +38,7 @@ class NumberRound extends Component {
                     {this.state.numbers.map((value, i) => (
                         <span className="values" key={i}>{value}</span>
                     ))}
-                    <input type="text" value={this.state.input} onChange={this.handleChange} placeholder="Type solution..." />
+                    <input className="answerInput" type="text" value={this.state.input} onChange={this.handleChange} placeholder="Type solution..." />
                     <div className={this.getBadgeClasses()}>
                         {this.state.output}
                     </div>
@@ -88,7 +89,7 @@ class NumberRound extends Component {
     }
 
     handleChange(event) {
-        this.setState({ input: event.target.value, output: this.sum(event.target.value) });
+        this.setState({ input: event.target.value, output: this.sum(this.infixToPostfix(event.target.value)) });
     }
 
     reset = () => {
@@ -122,8 +123,8 @@ class NumberRound extends Component {
 
     sum(e) {
         let numbers = [...this.state.numbers];
+        console.log(e);
         var s = [];
-        e = e.split(' ');
         for (let i = 0; i < e.length; i++) {
             if (!isNaN(e[i]) && (numbers.indexOf(+e[i]) === -1) && e[i] !== '' && e[i] !== ' ') {
                 return 'Number not available';
@@ -153,6 +154,65 @@ class NumberRound extends Component {
         }
         return isNaN(s[0]) ? 'Invalid input' : s[0];
     }
+
+    infixToPostfix(infix) {
+        const presedences = ["-", "+", "*", "/"];
+        infix = infix.split(' ');
+
+        var opsStack = [],
+            postfix = [];
+
+        for (let token of infix) {
+            // Step 1
+            if (!isNaN(token)) {
+                postfix.push(token); continue;
+            }
+            let topOfStack = opsStack[opsStack.length - 1];
+            // Step 2
+            if (!opsStack.length || topOfStack === "(") {
+                opsStack.push(token); continue;
+            }
+            // Step 3
+            if (token === "(") {
+                opsStack.push(token); continue;
+            }
+            // Step 4
+            if (token === ")") {
+                while (opsStack.length) {
+                    let op = opsStack.pop();
+                    if (op === "(") break;
+                    postfix.push(op);
+                }
+                continue;
+            }
+            // Step 5
+            let prevPresedence = presedences.indexOf(topOfStack),
+                currPresedence = presedences.indexOf(token);
+            while (currPresedence < prevPresedence) {
+                let op = opsStack.pop();
+                postfix.push(op);
+                prevPresedence = presedences.indexOf(opsStack[opsStack.length - 1]);
+            }
+            opsStack.push(token);
+        }
+        // Step 6
+        while (opsStack.length) {
+            let op = opsStack.pop();
+            if (op === "(") break;
+            postfix.push(op);
+        }
+
+        return postfix;
+    }
+
+    tokenize(exp) {
+        return exp
+            .replace(/\s/g, "")
+            .split(" ")
+            .map((token, i) => /^\d$/.test(token) ? +token : token);
+    }
+
+
 }
 
 class Target extends Component {
