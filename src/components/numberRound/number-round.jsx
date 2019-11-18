@@ -145,7 +145,6 @@ class NumberRound extends Component {
                     case '+': s.push(o1 + o2); break;
                     case '-': s.push(o1 - o2); break;
                     case '*': s.push(o1 * o2); break;
-                    case 'x': s.push(o1 * o2); break;
                     case '/': s.push(o1 / o2); break;
                     default: s.push(o1); break;
                 }
@@ -156,36 +155,31 @@ class NumberRound extends Component {
     }
 
     infixToPostfix(infix) {
-        const presedences = ["-", "+", "*", "/"];
+        const presedences = ['-', '+', '*', '/'];
         infix = infix.split(' ');
 
         var opsStack = [],
             postfix = [];
 
         for (let token of infix) {
-            // Step 1
             if (!isNaN(token)) {
                 postfix.push(token); continue;
             }
             let topOfStack = opsStack[opsStack.length - 1];
-            // Step 2
-            if (!opsStack.length || topOfStack === "(") {
+            if (!opsStack.length || topOfStack === '(') {
                 opsStack.push(token); continue;
             }
-            // Step 3
-            if (token === "(") {
+            if (token === '(') {
                 opsStack.push(token); continue;
             }
-            // Step 4
-            if (token === ")") {
+            if (token === ')') {
                 while (opsStack.length) {
                     let op = opsStack.pop();
-                    if (op === "(") break;
+                    if (op === '(') break;
                     postfix.push(op);
                 }
                 continue;
             }
-            // Step 5
             let prevPresedence = presedences.indexOf(topOfStack),
                 currPresedence = presedences.indexOf(token);
             while (currPresedence < prevPresedence) {
@@ -195,23 +189,14 @@ class NumberRound extends Component {
             }
             opsStack.push(token);
         }
-        // Step 6
         while (opsStack.length) {
             let op = opsStack.pop();
-            if (op === "(") break;
+            if (op === '(') break;
             postfix.push(op);
         }
 
         return postfix;
     }
-
-    tokenize(exp) {
-        return exp
-            .replace(/\s/g, "")
-            .split(" ")
-            .map((token, i) => /^\d$/.test(token) ? +token : token);
-    }
-
 
 }
 

@@ -15,7 +15,8 @@ class LetterRound extends Component {
         isLoaded: false,
         items: [],
         match: false,
-        inputValid: true
+        inputValid: true,
+        subnitted: false
     }
     constructor(props) {
         super(props);
@@ -78,7 +79,14 @@ class LetterRound extends Component {
                         <HiddenLetter key={i} letter={letter} />
                     ))}
                 </div>
-                {this.state.totalLetters === 9 ? <InputField input={this.state.input} handleChange={this.handleChange} empty={this.state.input === ''} checkWord={this.checkWord} match={this.state.match} inputValid={this.state.inputValid} /> : null}
+                {this.state.totalLetters === 9 ? <InputField
+                    input={this.state.input}
+                    handleChange={this.handleChange}
+                    empty={this.state.input === ''}
+                    checkWord={this.checkWord}
+                    match={this.state.match}
+                    submitted={this.state.submitted}
+                    inputValid={this.state.inputValid} /> : null}
             </div>
         );
     }
@@ -95,7 +103,7 @@ class LetterRound extends Component {
     }
 
     handleChange = (event) => {
-        this.setState({ input: event.target.value.toUpperCase(), inputValid: true, match: false });
+        this.setState({ input: event.target.value.toUpperCase(), inputValid: true, match: false, submitted: false });
         let letters = [...this.state.letters];
         let charArr = event.target.value.toUpperCase().split('');
         for (let i = 0; i < charArr.length; i++) {
@@ -137,6 +145,7 @@ class LetterRound extends Component {
     }
 
     checkWord = () => {
+        this.setState({ submitted: true });
         this.checkWordUtility(this.state.items, this.state.input.toLowerCase(), 0, this.state.items.length - 1);
     }
 
@@ -179,9 +188,10 @@ class InputField extends Component {
                 <p>Now make a word</p>
                 <input className="answerInput" type="text" value={this.props.input} maxLength="7" onChange={this.props.handleChange} />
                 {this.props.empty}
-                {!this.props.inputValid ? <small className="errorText">Letter not available</small> : null}
                 <button className="altButton" onClick={this.props.checkWord} disabled={this.props.input === '' || !this.props.inputValid}>Submit word</button>
-                <p>{this.props.match ? `Correct, +${this.getPoints()} points` : null}</p>
+                {!this.props.inputValid ? <p className="errorText">Letter not available</p> : null}
+                <p>{this.props.match && this.props.submitted ? `Correct, +${this.getPoints()} points` : null}</p>
+                <p>{!this.props.match && this.props.submitted ? `No match` : null}</p>
             </React.Fragment>
         );
     }
